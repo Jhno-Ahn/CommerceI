@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user.xml -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="CI_issue">
+ 	
+	<insert id = "insertIssue" parameterType = "issue.IssueDataBean">
+       insert into CI_Issue (issueNum, issueType, issueOpt, issueTitle, issueContent, issueFile, issueWriter, issueDate, issueEndDate, 
+       issueStmt, issueManager, issueDpmt, issueClearStep, issueRefuse) 
+       values(issueNum_Auto.NEXTVAL, #{issueType}, #{issueOpt}, #{issueTitle}, #{issueContent}, #{issueFile, jdbcType=VARCHAR}, #{issueWriter},
+       SYSDATE, null, 
+       '등록', null, #{issueDpmt}, null, null)
+    </insert>
+   
+    <select id = "getCount" resultType = "Integer">
+ 		select count(*) from CI_Issue
+ 	</select>
+ 	
+	<select id = "getList" resultType = "issue.IssueDataBean" parameterType="java.util.Map">
+       select issueNum, issueType, issueOpt, issueTitle, issueContent, issueFile, issueWriter, issueDate, issueEndDate, 
+       issueStmt, issueManager, issueDpmt, issueClearStep, issueRefuse, r from 
+       (select issueNum, issueType, issueOpt, issueTitle, issueContent, issueFile, issueWriter, issueDate, issueEndDate, 
+       issueStmt, issueManager, issueDpmt, issueClearStep, issueRefuse, ROWNUM r from 
+       (select issueNum, issueType, issueOpt, issueTitle, issueContent, issueFile, issueWriter, issueDate, issueEndDate, 
+       issueStmt, issueManager, issueDpmt, issueClearStep, issueRefuse from CI_Issue order by issueNum DESC)
+       order by issueNum DESC) where r &gt;= #{start} and r &lt;= #{end}
+    </select>
+ 	
+	<select id="getMyList" resultType = "issue.IssueDataBean" parameterType="String">
+		select issueNum, issueType, issueOpt, issueTitle, issueContent, issueWriter, issueFile, issueDate, issueEndDate, issueStmt, issueManager, issueDpmt, issueClearStep, issueRefuse
+		from CI_Issue 
+		where issueStmt = '진행' and issueManager=#{userId}
+	</select>
+	
+	<select id="getMyWork" resultType = "issue.IssueDataBean" parameterType="String">
+		select * from CI_Issue where issueManager=#{userId} and issueStmt = '등록'
+	</select>
+	
+	<select id="getArticle" resultType = "issue.IssueDataBean" parameterType="int">
+		select * from CI_Issue where issueNum = #{issueNum}
+	</select>
+	
+	<select id= "doArticle" resultType = "issue.IssueDataBean" parameterType="int">
+		update CI_Issue set issueStmt ='진행' where issueNum = #{issueNum}
+	</select>
+	
+	<select id="getRefuseWork" resultType = "issue.IssueDataBean" parameterType="String">
+		select issueType, issueOpt, issueTitle, issueContent, issueWriter, issueFile, issueDate, issueEndDate, issueStmt, issueManager
+ 		, issueDpmt, issueClearStep, issueRefuse
+		from CI_Issue 
+		where issueWriter=#{userId} and issueRefuse='refuse'
+	</select>
+	
+	
+	
+	
+	
+	
+ </mapper>

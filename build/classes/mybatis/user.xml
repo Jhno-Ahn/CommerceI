@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user.xml -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="CI_user">
+ 	
+	<insert id = "insertUser" parameterType = "user.UserDataBean">
+       insert into CI_User(userNum, userId, userName, userPasswd, userComNum, userLevel, userDpmt, userTel, userEmail) 
+       values(userNum_Auto.NEXTVAL, #{userId}, #{userName}, #{userPasswd}, #{userComNum}, #{userLevel}, #{userDpmt}, #{userTel}, #{userEmail})
+    </insert>
+   
+	 <select id = "checkId" parameterType = "String" resultType = "int">
+ 		select count(*) from CI_user where userId = #{userId}
+ 	</select>
+ 	
+ 	<select id = "checkComNum" parameterType = "String" resultType = "int">
+ 		select count(*) from CI_user where userComNum = #{userComNum}
+ 	</select>
+	 
+	 <select id = "getUser" parameterType = "String" resultType = "user.UserDataBean">
+ 		select * from CI_user where userId = #{userId}			<!-- 이부분 id의 값을 가져와야하니 카운트별말고 그냥 쏄렉스타프롬? -->
+ 	</select>
+ 	
+ 	
+ 	<select id = "getList" resultType = "user.UserDataBean">
+ 		select * from CI_user
+ 	</select>
+ 	
+ 	<select id = "getSearchList" parameterType = "String" resultType = "user.UserDataBean">
+ 		select * from CI_user where userName = #{searchWord} or userLevel = #{searchWord} or
+ 		userDpmt = #{searchWord} or userEmail = #{searchWord} or userTel = #{searchWord}
+ 	</select>
+ 	
+ 	<select id = "modifyUser" parameterType = "String" resultType = "user.UserDataBean">
+ 		update CI_user set userPasswd=#{userPasswd}, userTel=#{userTel}, userEmail=#{userEmail} 
+ 		where userId=#{userId}
+ 	</select>
+	 
+ </mapper>
