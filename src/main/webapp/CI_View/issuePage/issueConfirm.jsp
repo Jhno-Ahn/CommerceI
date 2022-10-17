@@ -168,6 +168,7 @@
 								$($("input[id=yes]")[index]).on(
 										"click",
 										function(event) {
+											if(confirm("정말 수락하시겠습니까?")){
 											$.ajax(
 												{
 													type : "GET",
@@ -186,6 +187,10 @@
 													}
 												}
 											)	
+												
+											} else {
+												return false;
+											}
 										}
 								);
 							}

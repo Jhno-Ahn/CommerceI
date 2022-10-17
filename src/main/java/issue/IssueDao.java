@@ -12,8 +12,7 @@ public interface IssueDao {
 	public List<IssueDataBean> getRefuseWork(String userId);
 	public IssueDataBean getArticle(int IssueNum); // 글보기
 	public int doArticle(int issueNum);  // 글승낙
+	public IssueDataBean getIssue(int issueNum);	
+	public int modifyIssue(IssueDataBean dto);
 	//public int modifyStmt(int issueNum);
-	 
-	
-	
 }

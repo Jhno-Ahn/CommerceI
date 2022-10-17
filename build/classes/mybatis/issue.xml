@@ -13,6 +13,11 @@
        SYSDATE, null, 
        '등록', null, #{issueDpmt}, null, null)
     </insert>
+    
+    <update id="modifyIssue" parameterType="issue.IssueDataBean">
+		update CI_Issue set issueTitle=#{issueTitle}, issueWriter=#{issueWriter}, issueType=#{issueType}, issueOpt=#{issueOpt}, issueContent=#{issueContent}, 
+		issueDpmt=#{issueDpmt}, issueFile=#{issueFile, jdbcType=VARCHAR} where issueNum=#{issueNum}
+	</update>	
    
     <select id = "getCount" resultType = "Integer">
  		select count(*) from CI_Issue
@@ -31,7 +36,7 @@
 	<select id="getMyList" resultType = "issue.IssueDataBean" parameterType="String">
 		select issueNum, issueType, issueOpt, issueTitle, issueContent, issueWriter, issueFile, issueDate, issueEndDate, issueStmt, issueManager, issueDpmt, issueClearStep, issueRefuse
 		from CI_Issue 
-		where issueStmt = '진행' and issueManager=#{userId}
+		where issueWriter=#{userId} or (issueStmt = '진행' and issueManager=#{userId}) 
 	</select>
 	
 	<select id="getMyWork" resultType = "issue.IssueDataBean" parameterType="String">
@@ -53,8 +58,11 @@
 		where issueWriter=#{userId} and issueRefuse='refuse'
 	</select>
 	
+	<select id="getIssue" resultType ="issue.IssueDataBean" parameterType="int">
+		select issueType, issueOpt, issueTitle, issueContent, issueWriter, issueFile, issueDpmt from CI_Issue where issueNum =#{issueNum}
+	</select>
 	
-	
+
 	
 	
 	

@@ -22,6 +22,7 @@
                                     <div class="card-body">
                                     <!-- ============== 여기부터 form  -->
                                     <table>
+                                    <input type="hidden" id="issueNum" value="${dto.issueNum}" />
 										<tr>
 											<th class="updown">유형</th>
 											<td>${dto.issueType}</td>
@@ -60,14 +61,14 @@
 										</tr>
                                  	</table>
                                 </div>
-										<div class="card-footer text-center py-3">
-                                       		<input type="button" id="backMyIssue" class="btn" value="뒤로가기"/>
+                                	    <div class="card-footer text-center py-3">
+                                       		<input  type="button" id="backMyIssue" class="btn btn-primary" value="삭제하기"/>
+                                       	    <input  type="button" id="modifyMyIssue" class="btn btn-primary" value="수정하기"/>
+                                       	    <input  type="button" id="backMyIssue" class="btn btn-primary" value="뒤로가기"/>
                                 	    </div>
                                 </div>
                             </div>
-                            
                         </div>
-                        
                         <div class="row justify-content-center" style="margin-bottom: 30px;">
                         	<table>
                         		<tr>
@@ -85,7 +86,6 @@
         <script>
         $(document).ready(
 				function() {
-				//리스트 불러오기
 				$("input[id = backMyIssue]").on(
 						"click",
 						function(event) {
@@ -93,14 +93,33 @@
 								{
 									type : "POST",
 									url : "issuePage/myIssue.do",
-									//처리한다음에 아이디 돌려줄 파일
 									data : {
 										
 									},
 									dataType : "text",
 									success : function(data) {
 										$(".content").html(data);
-										//id가 idcheck인 애한테 data를 출력시킨다는 뜻
+									},
+									error : function(error) {
+										$(".content").html(error);
+									}
+								}
+							)	
+						}
+					);
+				$("input[id = modifyMyIssue]").on(
+						"click",
+						function(event) {
+							$.ajax(
+								{
+									type : "GET",
+									url : "issuePage/myIssueModify.do",
+									data : {
+										issueNum : $("input[id=issueNum]").val(),
+									},
+									dataType : "text",
+									success : function(data) {
+										$(".content").html(data);
 									},
 									error : function(error) {
 										$(".content").html(error);

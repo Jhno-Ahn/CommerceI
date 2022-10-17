@@ -32,8 +32,8 @@ public class IssueDBBean implements IssueDao {
 	}
 	
 	@Override
-	public IssueDataBean getArticle(int IssueNum) {
-		return SqlMapClient.getSession().selectOne("CI_issue.getArticle", IssueNum);
+	public IssueDataBean getArticle(int issueNum) {
+		return SqlMapClient.getSession().selectOne("CI_issue.getArticle", issueNum);
 	}
 	
 	@Override
@@ -44,6 +44,16 @@ public class IssueDBBean implements IssueDao {
 	@Override
 	public List<IssueDataBean> getRefuseWork(String userId) {
 		return SqlMapClient.getSession().selectList("CI_issue.getRefuseWork", userId);
+	}
+	
+	@Override
+	public IssueDataBean getIssue(int issueNum) {
+		return SqlMapClient.getSession().selectOne("CI_issue.getIssue", issueNum);
+	}
+	
+	@Override
+	public int modifyIssue(IssueDataBean dto) {
+		return SqlMapClient.getSession().update("CI_issue.modifyIssue", dto);
 	}
 	
 	//@Override
