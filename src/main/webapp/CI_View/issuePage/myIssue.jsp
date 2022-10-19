@@ -87,7 +87,7 @@
  										function(event) {
  											$.ajax(
  												{
- 													type : "POST",
+ 													type : "GET",
  													url : "issuePage/myIssueDetail.do",
  													data : {
  														issueNum : $($("input[id=issueDetail]")[index]).val(),

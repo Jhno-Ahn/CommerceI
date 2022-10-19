@@ -54,6 +54,12 @@
 											<td>${dto.issueRefuse}</td>
 										</tr>
 										<tr>
+											<th class="updown">첨부파일</th>
+											<td colspan="4">
+												${dto.issueFile}
+											</td>
+										</tr>
+										<tr>
 											<th class="updown">글내용</th>
 											<td colspan="4">
 												<pre style="white-space:normal;">${dto.issueContent}</pre>
@@ -64,28 +70,49 @@
                                 	    <div class="card-footer text-center py-3">
                                        		<input  type="button" id="backMyIssue" class="btn btn-primary" value="삭제하기"/>
                                        	    <input  type="button" id="modifyMyIssue" class="btn btn-primary" value="수정하기"/>
-                                       	    <input  type="button" id="backMyIssue" class="btn btn-primary" value="뒤로가기"/>
+                                       	    <input  type="button" id="backMyIssue" class="btn btn-primary" value="글 목록"/>
                                 	    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center" style="margin-bottom: 30px;">
-                        	<table>
-                        		<tr>
-	                        		<th>첨부파일</th>
-	                        		<td>
-	                        			${dto.issueFile}
-	                        		</td>
-                        		</tr>
-                        	</table>
-                        </div>
                     </div>
                 </main>
+           <!-- ===========================여기부터 댓글 나오는 단 ==========================================-->
+                <section class="mb-5">
+			    <div class="card bg-light">
+			        <div class="card-body">
+			            <form class="mb-4">
+			            	<textarea id="replyContent" name="replyContent" class="form-control" rows="3"></textarea><input type="button" id="replySubmit" class="btn btn-primary"  value="댓글 등록">
+			            </form>
+			            <c:forEach var="rdto" items="${rdto}">
+			            <div class="d-flex mb-4">
+			                <div class="ms-3">
+			                    <div class="fw-bold">
+						            ${rdto.replyWriter}
+			                     </div>
+			                    ${rdto.replyContent}
+			                    <div class="d-flex mt-4">
+			                        <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..."></div>
+			                        <div class="ms-3">
+			                            <div class="fw-bold">
+			                            대댓글 작성자
+			                            </div>
+			                            대댓글
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			            </c:forEach>
+			        </div>
+			    </div>
+				</section>
             </div>
         </div>
-        <script>
+        <script src="/Commerce_I/js/jquery-3.6.0.js"></script>
+             <script type="text/javascript">
         $(document).ready(
 				function() {
+				var issueNum = '<c:out value = "${dto.issueNum}"/>';
 				$("input[id = backMyIssue]").on(
 						"click",
 						function(event) {
@@ -107,6 +134,29 @@
 							)	
 						}
 					);
+				$("input[id=replySubmit]").on(
+					"click",
+					function(event){
+						$.ajax(
+							{
+								type : "GET",
+								url : "issuePage/myIssueDetail.do",
+								data : {
+									A : "A",
+									replyContent : $("textarea[id = replyContent]").val(),
+									issueNum : issueNum,
+								},
+								dataType : "text",
+								success : function(data){
+									$(".content").html(data);
+								},
+								error : function(error) {
+									$(".content").html(error);
+								}
+							}								
+						);
+					}
+				);
 				$("input[id = modifyMyIssue]").on(
 						"click",
 						function(event) {

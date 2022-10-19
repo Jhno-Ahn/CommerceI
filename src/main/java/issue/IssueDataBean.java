@@ -19,6 +19,7 @@ public class IssueDataBean {
 	private String issueRefuse;
 	
 	
+	
 	public int getIssueNum() {
 		return issueNum;
 	}

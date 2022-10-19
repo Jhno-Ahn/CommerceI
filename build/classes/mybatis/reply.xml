@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user.xml -->
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="CI_reply">
+ 
+<!-- 글 개수 가져오기 -->
+  	<select id="getCount" resultType="int">
+			select count(*) from CI_reply
+	</select>
+	
+	<!-- 댓글 리스트 가져오기 -->
+	<select id="getReplyList" parameterType="java.util.Map" resultType = "reply.ReplyDataBean">
+		select replyNum, replyWriter, replyId, replyStep, replyLevel, replyIssueNum, replyContent, r
+		from (select replyNum, replyWriter, replyId, replyStep, replyLevel, replyIssueNum, replyContent, rownum r from
+		(select replyNum, replyWriter, replyId, replyStep, replyLevel, replyIssueNum, replyContent from CI_reply order by replyId desc, replyStep asc)
+		order by replyId desc, replyStep asc ) where replyIssueNum = #{issueNum}
+	</select>
+ 
+ 	<!-- 댓글 작성하기 -->
+ 	<insert id="insertReply" parameterType="java.util.Map">
+ 	   insert into CI_reply (replyNum, replyContent, replyWriter, replyIssueNum) 
+       values(CI_replyNum_auto.NEXTVAL, #{replyContent}, #{replyWriter}, #{replyIssueNum})
+ 	</insert>
+
+<!-- 	 답글 개수확인 
+	<select id="checkReply" parameterType="reply.ReplyDataBean" resultType="int">
+		select count(*) from CI_reply where replyId=#{replyId} and replyStep=#{replyStep}+1 and replyLevel &gt; #{replyLevel}
+	</select>
+
+	댓글 가져오기
+	<select id="getReply" resultType="reply.ReplyDataBean">
+		select replyWriter, replyId, replyStep, replyLevel from CI_reply where replyNum = #{issueNum}
+	</select>
+	
+	댓글 수정
+	<update id="modifyReply" parameterType="reply.ReplyDataBean">
+		update CI_Reply set replyWriter=#{replyWriter}, replyId=#{replyId,jdbcType=VARCHAR}, replyStep=#{replyStep,jdbcType=VARCHAR},
+		 replyLevel=#{replyLevel,jdbcType=VARCHAR} where replyNum=#{replyNum}
+	</update>
+	
+	대댓글 삭제
+	<update id="deleteReReply" parameterType="board.BoardDataBean">
+		update CI_Reply set replyStep=replyStep-1 where replyId=#{replyId} and re_step &gt; #{replyLevel}
+	</update>
+	
+	댓글 삭제
+	<delete id="deleteReply" parameterType="int">
+		delete from CI_Reply where replyNum=#{replyNum}
+	</delete> -->
+	 
+ </mapper>

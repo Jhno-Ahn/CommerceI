@@ -22,13 +22,13 @@
   				<property name = "poolTimeToWait" value = "${poolTimeToWait}"/>
   			</dataSource>
   		</environment>
-  	
   	</environments>
   	
   	<!-- Mapper 설정(안에 sql이 들어감) -->
   	<mappers>
   		<mapper resource="mybatis/user.xml"/>
   		<mapper resource="mybatis/issue.xml"/>
+  		<mapper resource="mybatis/reply.xml"/>
   	</mappers>
   	
   </configuration>

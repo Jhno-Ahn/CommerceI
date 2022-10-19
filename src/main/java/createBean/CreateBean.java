@@ -8,6 +8,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import issue.IssueDBBean;
 import issue.IssueDao;
+import reply.ReplyDBBean;
+import reply.ReplyDao;
 import user.UserDBBean;
 import user.UserDao;
 
@@ -26,17 +28,10 @@ public class CreateBean {
 		return new IssueDBBean();
 	}
 	
-	/*
 	@Bean
-	public MatchBoardDao matchBoardDao() {
-		return new MatchBoardDBBean();
+	public ReplyDao replyDao() {
+		return new ReplyDBBean();
 	}
-	
-	@Bean
-	public StoryDao storyDao() {
-		return new StoryDBBean();
-	}
-	*/
 	
 	
 	@Bean
